@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.util.HashMap;
 /**
  * The responder class represents a response generator object. It is used
  * to generate an automatic response. This is the second version of this 
@@ -14,6 +14,7 @@ public class Responder
 {
     private Random randomGenerator;
     private ArrayList<String> responses;
+    private HashMap<String, String> responseMap;
 
     /**
      * Construct a Responder
@@ -22,7 +23,9 @@ public class Responder
     {
         randomGenerator = new Random();
         responses = new ArrayList<>();
+        responseMap = new HashMap<>();
         fillResponses();
+        fillResponseMap();
     }
 
     /**
@@ -30,7 +33,7 @@ public class Responder
      * 
      * @return  A string that should be displayed as the response
      */
-    public String generateResponse()
+    public String pickDefaultResponse()
     {
         // Pick a random number for the index in the default response 
         // list. The number will be between 0 (inclusive) and the size
@@ -38,11 +41,49 @@ public class Responder
         int index = randomGenerator.nextInt(responses.size());
         return responses.get(index);
     }
-
+    
+    public boolean contains(String input) 
+    {
+        String[] arrayString = input.split(" ");
+        boolean doesContain = false;
+        for (int i = 0; i < arrayString.length; i++) 
+        {
+            if (!doesContain) {
+            doesContain = responseMap.containsKey(arrayString[i]);
+        }
+        }
+        System.out.println(doesContain);
+        return doesContain;
+    }
+    
+    public String containsAndOutput(String input) 
+    {
+        String[] arrayString = input.split(" ");
+        boolean doesContain = false;
+        String word = "";
+        for (int i = 0; i < arrayString.length; i++) 
+        {
+            
+            doesContain = responseMap.containsKey(arrayString[i]);
+            
+            if (doesContain) 
+            {
+                word = responseMap.get(arrayString[i]);
+            }
+        }
+        return word;
+    }
     /**
      * Build up a list of default responses from which we can pick one
      * if we don't know what else to say.
      */
+    private void fillResponseMap()
+    {
+        responseMap.put("screen", "try turning it on and off");
+        responseMap.put("hornet", "Git Gud");
+        responseMap.put("robux", "get a job Kiddo");
+    }
+    
     private void fillResponses()
     {
         responses.add("That sounds odd. Could you describe this in more detail?");

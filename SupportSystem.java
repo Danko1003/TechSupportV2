@@ -11,10 +11,14 @@
  * @author  Michael Kölling and David J. Barnes
  * @version 7.2
  */
+import java.util.HashSet;
+import java.util.HashMap;
+
 public class SupportSystem
 {
     private InputReader reader;
     private Responder responder;
+    
     
     /**
      * Creates a technical support system.
@@ -23,6 +27,8 @@ public class SupportSystem
     {
         reader = new InputReader();
         responder = new Responder();
+        
+        
     }
 
     /**
@@ -38,18 +44,31 @@ public class SupportSystem
 
         while(!finished) {
             String input = reader.getInput().trim().toLowerCase();
-
-            if(input.startsWith("bye")) {
+            
+            if (responder.contains(input)) 
+            {
+                String response = responder.containsAndOutput(input);
+                System.out.println(response);
+            }
+            else if(input.startsWith("bye")) {
                 finished = true;
             }
             else {
-                String response = responder.generateResponse();
+                String response = responder.pickDefaultResponse();
                 System.out.println(response);
             }
         }
         printGoodbye();
     }
 
+    private String splitter(String input,int index) 
+    {
+        String[] arrayString = input.split(" ");
+        return arrayString[index];
+    }
+    
+    
+    
     /**
      * Print a welcome message to the screen.
      */
@@ -61,7 +80,9 @@ public class SupportSystem
         System.out.println("with any problem you might have. Please type 'bye'");
         System.out.println("to exit our system.");
     }
-
+    
+    
+    
     /**
      * Print a good-bye message to the screen.
      */
