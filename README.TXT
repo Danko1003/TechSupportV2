@@ -44,23 +44,26 @@ Then start describing your problem by typing in the terminal window.
 
 
 
-28-
+28-Nothing much, just overwrites the previous one with the lastest.
 
 
 
-29-
+29-Both exist
 
 
 
-30-
+30-use containsKey()
+    if bob has key that is "Johnny"
+    then return bob.containsKey("Johnny");
+    it will return true
 
 
 
-31-
+31-it will return Null
 
 
 
-32-
+32-make a for loop that will print out the the keySet one by one till all will be printed.
 
 
 
