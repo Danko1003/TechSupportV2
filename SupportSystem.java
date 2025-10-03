@@ -39,27 +39,25 @@ public class SupportSystem
     public void start()
     {
         boolean finished = false;
-
+    
         printWelcome();
-
+    
         while(!finished) {
-            String input = reader.getInput().trim().toLowerCase();
-            
-            if (responder.contains(input)) 
-            {
-                String response = responder.containsAndOutput(input);
-                System.out.println(response);
-            }
-            else if(input.startsWith("bye")) {
+            String input = reader.getInput().trim();
+    
+            if(input.toLowerCase().startsWith("bye")) {
                 finished = true;
             }
             else {
-                String response = responder.pickDefaultResponse();
+                // ✅ Always call containsAndOutput, which handles everything
+                String response = responder.containsAndOutput(input);
                 System.out.println(response);
             }
         }
+    
         printGoodbye();
     }
+
 
     private String splitter(String input,int index) 
     {

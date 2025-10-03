@@ -67,9 +67,36 @@ public class Responder
         return doesContain;
     }
     
+    private String pickClueResponse(String input) 
+    {
+        input = input.toLowerCase();
+        String[] words = input.split("\\W+"); // split on non-word characters
+    
+        for (String word : words) {
+            switch (word) {
+                case "why":
+                    return "Why indeed? Sometimes, there’s just no clear answer.";
+                case "how":
+                    return "That's a good question. Let's figure out how together.";
+                case "who":
+                    return "I'm not sure who, but it sounds mysterious.";
+                case "what":
+                    return "That depends on what you're referring to.";
+                case "when":
+                    return "Timing is everything. Can you be more specific?";
+                case "where":
+                    return "That might depend on your setup or location.";
+            }
+        }
+    
+        return pickDefaultResponse(); // fallback if no clue word found
+    }
+
+
+        
     public String containsAndOutput(String input) 
     {
-        String[] arrayString = input.split(" ");
+        String[] arrayString = input.toLowerCase().split(" ");
         ArrayList<String> matchedResponses = new ArrayList<>();
         
         for (String word : arrayString) 
@@ -79,13 +106,13 @@ public class Responder
                 String keyword = synonymMap.get(word);
                 String response = responseMap.get(keyword);
                 if (response != null && !matchedResponses.contains(response)) {
-                    matchedResponses.add("For the issue of "+ keyword + " you can " + response + ".");
+                    matchedResponses.add("For the issue of " + keyword + ", you can " + response + ".");
                 }
             }
         }
     
         if (matchedResponses.isEmpty()) {
-            return pickDefaultResponse(); // fallback response
+            return pickClueResponse(input);
         } 
         else {
             return "It looks like you mentioned a few issues. Here's what I suggest:\n" 
@@ -99,18 +126,18 @@ public class Responder
      */
     private void fillResponseMap()
     {
-        responseMap.put("screen", "Try turning it on and off.");
-        responseMap.put("hornet", "Git Gud.");
-        responseMap.put("robux", "Get a job, kiddo.");
-        responseMap.put("internet", "Restart your PC first. If that doesn't help, restart your modem.");
-        responseMap.put("cable", "Read the manual.");
-        responseMap.put("battery", "Have you tried charging it?");
+        responseMap.put("screen", "try turning it on and off.");
+        responseMap.put("hornet", "git Gud.");
+        responseMap.put("robux", "get a job, kiddo.");
+        responseMap.put("internet", "restart your PC first. If that doesn't help, restart your modem.");
+        responseMap.put("cable", "read the manual.");
+        responseMap.put("battery", "try charging it?");
         responseMap.put("keyboard", "Try plugging it into a different USB port.");
-        responseMap.put("mouse", "Clean the sensor underneath the mouse.");
-        responseMap.put("sound", "Check if it's muted or your output device is set correctly.");
-        responseMap.put("crash", "Make sure your drivers are up to date.");
-        responseMap.put("blue", "Ah yes, the Blue Screen of Death. Time for a restart.");
-        responseMap.put("slow", "Try closing background apps or scanning for malware.");
+        responseMap.put("mouse", "clean the sensor underneath the mouse.");
+        responseMap.put("sound", "check if it's muted or your output device is set correctly.");
+        responseMap.put("crash", "make sure your drivers are up to date.");
+        responseMap.put("blue", "give up cause you cannot escape the Blue Screen of Death. Time for a restart.");
+        responseMap.put("slow", "try closing background apps or scanning for malware.");
     }
         
     private void fillSynonymMap()
@@ -118,43 +145,32 @@ public class Responder
         synonymMap.put("screen", "screen");
         synonymMap.put("monitor", "screen");
         synonymMap.put("display", "screen");
-    
         synonymMap.put("hornet", "hornet");
         synonymMap.put("hollow", "hornet");
         synonymMap.put("knight", "hornet");
-    
         synonymMap.put("robux", "robux");
-    
         synonymMap.put("internet", "internet");
         synonymMap.put("wifi", "internet");
         synonymMap.put("connection", "internet");
-    
         synonymMap.put("cable", "cable");
         synonymMap.put("cables", "cable");
         synonymMap.put("wire", "cable");
         synonymMap.put("wires", "cable");
-    
         synonymMap.put("battery", "battery");
         synonymMap.put("charge", "battery");
         synonymMap.put("power", "battery");
-    
         synonymMap.put("keyboard", "keyboard");
         synonymMap.put("keys", "keyboard");
-    
         synonymMap.put("mouse", "mouse");
         synonymMap.put("cursor", "mouse");
-    
         synonymMap.put("sound", "sound");
         synonymMap.put("audio", "sound");
         synonymMap.put("volume", "sound");
-    
         synonymMap.put("crash", "crash");
         synonymMap.put("freezes", "crash");
         synonymMap.put("freeze", "crash");
-    
         synonymMap.put("blue", "blue");
         synonymMap.put("bsod", "blue");
-    
         synonymMap.put("slow", "slow");
         synonymMap.put("lag", "slow");
         synonymMap.put("lagging", "slow");
