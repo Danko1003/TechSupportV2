@@ -67,27 +67,42 @@ Then start describing your problem by typing in the terminal window.
 
 
 
-33-
+33-x
 
 
 
 34-
+Similarities:
+
+Both HashSet and ArrayList store a collection of objects.
+
+Both allow null elements (only one null in HashSet).
+
+Both are part of the Java Collections Framework.
+
+Differences:
+
+HashSet (from Set) does not allow duplicates, while ArrayList (from List) allows duplicates.
+
+HashSet has no guaranteed order, but ArrayList maintains insertion order.
+
+ArrayList allows indexed access, HashSet does not.
 
 
 
-35-
+35-Returning words in a HashSet removes duplicates and does not preserve order, while returning them in an ArrayList keeps duplicates and preserves the insertion order.
 
 
 
-36-
+36-If there are multiple spaces between words and you split the text using .split(" "), it will create empty strings for the extra spaces, which can be a problem.
 
 
 
-37-
+37-I made it using a mix of arrayList and HashMap. Uses split, verifies if input contains keys by splitting the input into words. Answers cannot be duplicate because of the use of the hashmap.
 
 
 
-38-
+38-x
 
 
 
