@@ -70,48 +70,96 @@ public class Responder
     public String containsAndOutput(String input) 
     {
         String[] arrayString = input.split(" ");
-        boolean doesContain = false;
-        String word = "";
-        for (int i = 0; i < arrayString.length; i++) 
+        ArrayList<String> matchedResponses = new ArrayList<>();
+        
+        for (String word : arrayString) 
         {
-            
-            doesContain = synonymMap.containsKey(arrayString[i]);
-            
-            if (doesContain) 
+            if (synonymMap.containsKey(word)) 
             {
-                word = responseMap.get(synonymMap.get(arrayString[i]));
+                String keyword = synonymMap.get(word);
+                String response = responseMap.get(keyword);
+                if (response != null && !matchedResponses.contains(response)) {
+                    matchedResponses.add("For the issue of "+ keyword + " you can " + response + ".");
+                }
             }
         }
-        
-        return word;
+    
+        if (matchedResponses.isEmpty()) {
+            return pickDefaultResponse(); // fallback response
+        } 
+        else {
+            return "It looks like you mentioned a few issues. Here's what I suggest:\n" 
+                   + String.join("\n", matchedResponses);
+        }
     }
+
     /**
      * Build up a list of default responses from which we can pick one
      * if we don't know what else to say.
      */
     private void fillResponseMap()
     {
-        responseMap.put("screen", "try turning it on and off");
-        responseMap.put("hornet", "Git Gud");
-        responseMap.put("robux", "get a job Kiddo");
-        responseMap.put("internet", "restart you pc first, if it does not help: restart your modem");
-        responseMap.put("cable","Read the manual");
-        
+        responseMap.put("screen", "Try turning it on and off.");
+        responseMap.put("hornet", "Git Gud.");
+        responseMap.put("robux", "Get a job, kiddo.");
+        responseMap.put("internet", "Restart your PC first. If that doesn't help, restart your modem.");
+        responseMap.put("cable", "Read the manual.");
+        responseMap.put("battery", "Have you tried charging it?");
+        responseMap.put("keyboard", "Try plugging it into a different USB port.");
+        responseMap.put("mouse", "Clean the sensor underneath the mouse.");
+        responseMap.put("sound", "Check if it's muted or your output device is set correctly.");
+        responseMap.put("crash", "Make sure your drivers are up to date.");
+        responseMap.put("blue", "Ah yes, the Blue Screen of Death. Time for a restart.");
+        responseMap.put("slow", "Try closing background apps or scanning for malware.");
     }
+        
     private void fillSynonymMap()
     {
         synonymMap.put("screen", "screen");
+        synonymMap.put("monitor", "screen");
+        synonymMap.put("display", "screen");
+    
         synonymMap.put("hornet", "hornet");
+        synonymMap.put("hollow", "hornet");
+        synonymMap.put("knight", "hornet");
+    
         synonymMap.put("robux", "robux");
+    
         synonymMap.put("internet", "internet");
         synonymMap.put("wifi", "internet");
-        synonymMap.put("cable","cable");
-        synonymMap.put("cables","cable");
-        synonymMap.put("monitor","screen");
-        synonymMap.put("hollow","hornet");
-        synonymMap.put("knight","hornet");
-        
+        synonymMap.put("connection", "internet");
+    
+        synonymMap.put("cable", "cable");
+        synonymMap.put("cables", "cable");
+        synonymMap.put("wire", "cable");
+        synonymMap.put("wires", "cable");
+    
+        synonymMap.put("battery", "battery");
+        synonymMap.put("charge", "battery");
+        synonymMap.put("power", "battery");
+    
+        synonymMap.put("keyboard", "keyboard");
+        synonymMap.put("keys", "keyboard");
+    
+        synonymMap.put("mouse", "mouse");
+        synonymMap.put("cursor", "mouse");
+    
+        synonymMap.put("sound", "sound");
+        synonymMap.put("audio", "sound");
+        synonymMap.put("volume", "sound");
+    
+        synonymMap.put("crash", "crash");
+        synonymMap.put("freezes", "crash");
+        synonymMap.put("freeze", "crash");
+    
+        synonymMap.put("blue", "blue");
+        synonymMap.put("bsod", "blue");
+    
+        synonymMap.put("slow", "slow");
+        synonymMap.put("lag", "slow");
+        synonymMap.put("lagging", "slow");
     }
+
     private void fillResponses()
     {
         responses.add("That sounds odd. Could you describe this in more detail?");
