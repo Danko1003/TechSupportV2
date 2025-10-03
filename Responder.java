@@ -15,6 +15,8 @@ public class Responder
     private Random randomGenerator;
     private ArrayList<String> responses;
     private HashMap<String, String> responseMap;
+    private HashMap<String, String> synonymMap;
+    private int lastUsedIndex = 0;
 
     /**
      * Construct a Responder
@@ -24,7 +26,9 @@ public class Responder
         randomGenerator = new Random();
         responses = new ArrayList<>();
         responseMap = new HashMap<>();
+        synonymMap = new HashMap<>();
         fillResponses();
+        fillSynonymMap();
         fillResponseMap();
     }
 
@@ -36,9 +40,16 @@ public class Responder
     public String pickDefaultResponse()
     {
         // Pick a random number for the index in the default response 
+         //will remember last used value
+        int index = randomGenerator.nextInt(responses.size());
         // list. The number will be between 0 (inclusive) and the size
         // of the list (exclusive).
-        int index = randomGenerator.nextInt(responses.size());
+        while (lastUsedIndex == index)
+        {
+            index = randomGenerator.nextInt(responses.size());
+            
+        }
+        lastUsedIndex = index;
         return responses.get(index);
     }
     
@@ -49,10 +60,10 @@ public class Responder
         for (int i = 0; i < arrayString.length; i++) 
         {
             if (!doesContain) {
-            doesContain = responseMap.containsKey(arrayString[i]);
+            doesContain = synonymMap.containsKey(arrayString[i]);
+            }
         }
-        }
-        System.out.println(doesContain);
+        //System.out.println(synonymMap.containsKey());
         return doesContain;
     }
     
@@ -64,13 +75,14 @@ public class Responder
         for (int i = 0; i < arrayString.length; i++) 
         {
             
-            doesContain = responseMap.containsKey(arrayString[i]);
+            doesContain = synonymMap.containsKey(arrayString[i]);
             
             if (doesContain) 
             {
-                word = responseMap.get(arrayString[i]);
+                word = responseMap.get(synonymMap.get(arrayString[i]));
             }
         }
+        
         return word;
     }
     /**
@@ -82,8 +94,24 @@ public class Responder
         responseMap.put("screen", "try turning it on and off");
         responseMap.put("hornet", "Git Gud");
         responseMap.put("robux", "get a job Kiddo");
+        responseMap.put("internet", "restart you pc first, if it does not help: restart your modem");
+        responseMap.put("cable","Read the manual");
+        
     }
-    
+    private void fillSynonymMap()
+    {
+        synonymMap.put("screen", "screen");
+        synonymMap.put("hornet", "hornet");
+        synonymMap.put("robux", "robux");
+        synonymMap.put("internet", "internet");
+        synonymMap.put("wifi", "internet");
+        synonymMap.put("cable","cable");
+        synonymMap.put("cables","cable");
+        synonymMap.put("monitor","screen");
+        synonymMap.put("hollow","hornet");
+        synonymMap.put("knight","hornet");
+        
+    }
     private void fillResponses()
     {
         responses.add("That sounds odd. Could you describe this in more detail?");
